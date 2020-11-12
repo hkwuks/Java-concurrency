@@ -37,7 +37,7 @@
 
 一个好的内存模型实际上会放松对处理器和编译器规则的束缚，也就是说软件技术和硬件技术都为同一个目标而进行奋斗：在不改变程序执行结果的前提下，尽可能提高并行度。JMM对底层尽量减少约束，使其能够发挥自身优势。因此，在执行程序时，**为了提高性能，编译器和处理器常常会对指令进行重排序**。一般重排序可以分为如下三种：
 
-![从源码到最终执行的指令序列的示意图](http://upload-images.jianshu.io/upload_images/2615789-4a1ae3e7c7906823.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/800)
+![从源码到最终执行的指令序列的示意图](从源码到最终执行的指令序列的示意图.png)
 1. 编译器优化的重排序。编译器在不改变单线程程序语义的前提下，可以重新安排语句的执行顺序；
 2. 指令级并行的重排序。现代处理器采用了指令级并行技术来将多条指令重叠执行。如果**不存在数据依赖性**，处理器可以改变语句对应机器指令的执行顺序；
 3. 内存系统的重排序。由于处理器使用缓存和读/写缓冲区，这使得加载和存储操作看上去可能是在乱序执行的。
@@ -108,7 +108,7 @@ happens-before的概念最初由Leslie Lamport在其一篇影响深远的论文�
 
 ### 5.1 JMM的设计
 
-![JMM层级图](http://upload-images.jianshu.io/upload_images/2615789-b96f4b4edada03a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/800)
+![JMM层级图](JMM层级图.png)
 
 JMM是语言级的内存模型，在我的理解中JMM处于中间层，包含了两个方面：（1）内存模型；（2）重排序以及happens-before规则。同时，为了禁止特定类型的重排序会对编译器和处理器指令序列加以控制。而上层会有基于JMM的关键字和J.U.C包下的一些具体类用来方便程序员能够迅速高效率的进行并发编程。站在JMM设计者的角度，在设计JMM时需要考虑两个关键因素:
 
@@ -130,7 +130,7 @@ JMM对这两种不同性质的重排序，采取了不同的策略，如下。
 
 JMM的设计图为：
 
-![JMM设计示意图](http://upload-images.jianshu.io/upload_images/2615789-b288451befb6a441.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/800)
+![JMM设计示意图](JMM设计示意图.png)
 从图可以看出：
 
 1. JMM向程序员提供的happens-before规则能满足程序员的需求。JMM的happens-before规则不但简单易懂，而且也向程序员提供了足够强的内存可见性保证（有些内存可见性保证其实并不一定真实存在，比如上面的A happens-before B）。
@@ -138,7 +138,7 @@ JMM的设计图为：
 ### 5.2 happens-before与JMM的关系 
 
 
-![happens-before与JMM的关系](http://upload-images.jianshu.io/upload_images/2615789-dd96af34a8df5c49.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/800)
+![happens-before与JMM的关系](happens-before与JMM的关系.png)
 
 一个happens-before规则对应于一个或多个编译器和处理器重排序规则。对于Java程序员来说，happens-before规则简单易懂，它避免Java程序员为了理解JMM提供的内存可见性保证而去学习复杂的重排序规则以及这些规则的具体实现方法
 
